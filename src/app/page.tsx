@@ -1,4 +1,5 @@
 import FeaturesSection from "@/components/Feture";
+import PricingSection from "@/components/Priceing";
 import StatsSection from "@/components/StatsSection";
 import React from "react";
 
@@ -7,6 +8,7 @@ const Home = () => {
     <div>
       <StatsSection />
       <FeaturesSection />
+      <PricingSection />
     </div>
   );
 };

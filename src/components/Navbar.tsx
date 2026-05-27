@@ -5,14 +5,25 @@ import { Button } from "@heroui/react";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { navItems } from "./NavbarItems";
-import { useSession } from "@/lib/auth-client";
-import { div } from "motion/react-client";
+import { authClient, useSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const { data: session } = useSession();
   console.log(session);
+
+  const logOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/login"); // redirect to login page
+        },
+      },
+    });
+  };
 
   return (
     <nav className="w-full bg-[radial-gradient(circle_at_top,#1F1F28,#0F0F12)] px-4 py-4 md:px-6">
@@ -71,15 +82,20 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
-            <p className=" text-white">{session?.user?.name}</p>
-            <Link href={"/"}>
-              <Button
-                variant="ghost"
-                className="text-sm font-medium text-violet-400"
-              >
-                log Out
-              </Button>
-            </Link>
+            {session?.user && (
+              <div className="flex items-center gap-4">
+                <p className=" text-white">{session?.user?.name}</p>
+                <Link href={"/"}>
+                  <Button
+                    onClick={logOut}
+                    variant="ghost"
+                    className="text-sm font-medium text-violet-400"
+                  >
+                    log Out
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
 

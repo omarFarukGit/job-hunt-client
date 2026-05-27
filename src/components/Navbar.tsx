@@ -5,9 +5,14 @@ import { Button } from "@heroui/react";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { navItems } from "./NavbarItems";
+import { useSession } from "@/lib/auth-client";
+import { div } from "motion/react-client";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data: session } = useSession();
+  console.log(session);
 
   return (
     <nav className="w-full bg-[radial-gradient(circle_at_top,#1F1F28,#0F0F12)] px-4 py-4 md:px-6">
@@ -48,18 +53,31 @@ const Navbar = () => {
 
           {/* Buttons */}
           <div className="flex items-center gap-4">
-            <Link href={"/signin"}>
+            {!session?.user && (
+              <div className="flex items-center gap-4">
+                <Link href={"/signin"}>
+                  <Button
+                    variant="ghost"
+                    className="text-sm font-medium text-violet-400"
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+
+                <Link href={"/signup"}>
+                  <Button className="rounded-xl bg-white px-5 text-sm font-semibold text-black hover:bg-gray-200">
+                    Get Started
+                  </Button>
+                </Link>
+              </div>
+            )}
+            <p className=" text-white">{session?.user?.name}</p>
+            <Link href={"/"}>
               <Button
                 variant="ghost"
                 className="text-sm font-medium text-violet-400"
               >
-                Sign In
-              </Button>
-            </Link>
-
-            <Link href={"/signup"}>
-              <Button className="rounded-xl bg-white px-5 text-sm font-semibold text-black hover:bg-gray-200">
-                Get Started
+                log Out
               </Button>
             </Link>
           </div>

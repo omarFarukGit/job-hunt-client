@@ -10,7 +10,7 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-
+import { Radio, RadioGroup } from "@heroui/react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
@@ -25,13 +25,15 @@ const SignUpPage = () => {
 
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries());
+    console.log(user, "create user");
 
     const { data, error } = await authClient.signUp.email({
       email: user.email as string,
       password: user.password as string,
       name: user.name as string,
       image: user.image as string,
-      callbackURL:'/'
+      role: user.role as string,
+      callbackURL: "/",
     });
 
     if (data) {
@@ -127,6 +129,30 @@ const SignUpPage = () => {
             <FieldError />
           </TextField>
 
+          {/* role */}
+          <RadioGroup name="role" defaultValue="seeker">
+            <Label>Select Role</Label>
+            <Description>Select Role</Description>
+            <Radio value="seeker" name="seeker">
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>
+                <Label>Seeker</Label>
+                <Description>Seeker</Description>
+              </Radio.Content>
+            </Radio>
+            <Radio value="recruiter" name="recruiter">
+              <Radio.Control>
+                <Radio.Indicator />
+              </Radio.Control>
+              <Radio.Content>
+                <Label>Recruiter</Label>
+                <Description>Recruiter</Description>
+              </Radio.Content>
+            </Radio>
+          </RadioGroup>
+
           <Button
             className="w-full bg-cyan-500 hover:bg-cyan-600 text-white rounded-lg"
             type="submit"
@@ -147,10 +173,7 @@ const SignUpPage = () => {
         </div>
 
         {/* Github Button */}
-        <Button
-          onClick={signIn}
-          className="w-full rounded-lg"
-        >
+        <Button onClick={signIn} className="w-full rounded-lg">
           <FaGithub className="text-lg" />
           Sign in with GitHub
         </Button>

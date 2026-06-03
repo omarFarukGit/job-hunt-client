@@ -31,6 +31,7 @@ const SignUpPage = () => {
       password: user.password as string,
       name: user.name as string,
       image: user.image as string,
+      callbackURL:'/'
     });
 
     if (data) {

@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 interface StatsCardProps {
   title: string;
   value: string | number;
-  icon: ReactNode;
+  icon: ReactNode; 
 }
 
 export default function StatsCard({ title, value, icon }: StatsCardProps) {

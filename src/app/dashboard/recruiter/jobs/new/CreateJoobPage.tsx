@@ -3,16 +3,17 @@
 import { createJob } from "@/lib/action/job";
 import { useState } from "react";
 
-export default function CreateJobPage({ company }:{company:any}) {
+export default function CreateJobPage({ company }: { company: any }) {
   const [isRemote, setIsRemote] = useState(false);
-
-  // const company = {
-  //   name: "HireLoop",
-  //   industry: "Technology",
-  //   companyId: company,
-  //   approved: true,
-  //   status: true,
-  // };
+  console.log("com", company.data[0]._id);
+  const Company = {
+    isRemote,
+    name: company.data[0].name,
+    industry: company.data[0].industry,
+    companyId: company.data[0]._id,
+    approved: true,
+    status: true,
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,12 +24,7 @@ export default function CreateJobPage({ company }:{company:any}) {
 
     const payload = {
       ...job,
-      isRemote,
-      name:company.name,
-      industry: company.industry,
-      companyId: company._id,
-      approved: true,
-      status: true,
+      ...Company,
     };
     console.log(payload);
 
@@ -239,7 +235,7 @@ export default function CreateJobPage({ company }:{company:any}) {
             </div>
 
             <div className="mt-5">
-              {company.approved ? (
+              {company ? (
                 <span className="rounded-full bg-green-100 px-3 py-1 text-sm text-green-700">
                   Approved Company
                 </span>
@@ -259,7 +255,7 @@ export default function CreateJobPage({ company }:{company:any}) {
 
             <button
               type="submit"
-              disabled={!company.approved}
+              disabled={!company}
               className="rounded-lg bg-black px-6 py-3 text-white disabled:opacity-50"
             >
               Publish Job

@@ -20,9 +20,17 @@ export function DashBoardSideBar() {
   }[] = [
     { icon: House, label: "Home", href: "/dashboard/recruiter" },
     { icon: Magnifier, label: "jobs", href: "/dashboard/recruiter/jobs" },
-    { icon: Bell, label: "carate A job", href: "/dashboard/recruiter/jobs/new" },
+    {
+      icon: Bell,
+      label: "carate A job",
+      href: "/dashboard/recruiter/jobs/new",
+    },
     { icon: Envelope, label: "Messages", href: "/dashboard/recruiter" },
-    { icon: Person, label: "Profile", href: "/dashboard/recruiter" },
+    {
+      icon: Person,
+      label: "companyProfile",
+      href: "/dashboard/recruiter/company",
+    },
     { icon: Gear, label: "Settings", href: "/dashboard/recruiter" },
   ];
 

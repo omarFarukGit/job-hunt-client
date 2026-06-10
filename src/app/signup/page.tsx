@@ -15,10 +15,12 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
 import { FaGithub } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SignUpPage = () => {
   const router = useRouter();
+  const seachParams = useSearchParams();
+  const redirectTo = seachParams.get("redirect") || "/";
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,13 +39,12 @@ const SignUpPage = () => {
         body: {
           role: user.role,
         },
-      },
-      callbackURL: "/",
+      }
     });
 
     if (data) {
       toast.success("User created successfully");
-      router.push("/");
+      router.push(redirectTo);
     }
 
     if (error) {
@@ -191,7 +192,10 @@ const SignUpPage = () => {
         <div className="flex justify-center mt-5">
           <p className="text-sm text-gray-600 text-center">
             Already have an account?{" "}
-            <Link href="/login" className=" hover:underline">
+            <Link
+              href={`/signin?redirect=${redirectTo}`}
+              className=" hover:underline"
+            >
               Login
             </Link>
           </p>

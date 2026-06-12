@@ -31,7 +31,7 @@ const JobApply = ({ job, applicant }) => {
   const [loading, setLoading] = useState(false);
 
   // ✅ Safe change handler (HeroUI compatible)
-  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target?.name;
     const value = e.target?.value;
 
@@ -42,7 +42,7 @@ const JobApply = ({ job, applicant }) => {
   };
 
   // ✅ Submit handler
-  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // validation
@@ -54,7 +54,7 @@ const JobApply = ({ job, applicant }) => {
     const submissionData = {
       jobId: job?._id,
       jobTitle: job?.jobTitle,
-      companyName: job?.companyName,
+      companyName: job?.name,
 
       applicantId: applicant?.id,
       applicantName: applicant?.name,
@@ -63,16 +63,21 @@ const JobApply = ({ job, applicant }) => {
       ...formData,
     };
 
+    console.log(applicant, "sp");
+
     try {
       setLoading(true);
 
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/applications`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/applications`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(submissionData),
         },
-        body: JSON.stringify(submissionData),
-      });
+      );
 
       if (res.ok) {
         alert("Application submitted successfully!");

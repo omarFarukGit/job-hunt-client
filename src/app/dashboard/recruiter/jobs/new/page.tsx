@@ -5,7 +5,7 @@ import { getRecruterCompany } from "@/lib/api/companies";
 
 const PostJobPage = async () => {
   const user = await getUserSession();
-  console.log("user com", user);
+  // console.log("user com", user);
   const Company = await getRecruterCompany(user?.id as string);
 
   console.log("cm", Company);

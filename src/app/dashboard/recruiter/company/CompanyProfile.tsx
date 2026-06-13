@@ -39,9 +39,7 @@ const textAreaClass =
 
 export default function CompanyProfile({ recruiter, recruiterCompany }) {
   // 1. Core State
- const [company, setCompany] = useState(
-  recruiterCompany?.data?.[0] || null
-); // Keeps null initially to showcase empty template structure
+  const [company, setCompany] = useState(recruiterCompany?.data?.[0] || null); // Keeps null initially to showcase empty template structure
   const [isEditing, setIsEditing] = useState(false);
   const [errors, setErrors] = useState({});
 
@@ -158,7 +156,7 @@ export default function CompanyProfile({ recruiter, recruiterCompany }) {
       employeeCount: employeeCount || "1-10 employees",
       description,
       logo: logoUrl || company?.logo || "",
-      status: company?.status || "Pending",
+      status: (company && company?.status) || "Pending",
       recruiterId: recruiter.id,
     };
 

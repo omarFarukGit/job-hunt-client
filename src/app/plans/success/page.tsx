@@ -25,8 +25,9 @@ export default async function Success({ searchParams }) {
   if (status === "complete") {
     const subsInfo = {
       email: customerEmail,
-      planId: metadata.planId,
+      planId: metadata?.planId,
     };
+    console.log(metadata.planId,'plan')
     // update the user table about the new plan
 
     //  createSubscription;

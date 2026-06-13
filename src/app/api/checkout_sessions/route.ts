@@ -10,20 +10,28 @@ export async function POST(req: Request) {
     const fromdata = await req.formData();
     const planId = fromdata.get("plan_id");
     const priceId = PLAN_PRICE_ID[planId];
-    const sessionUser=await getUserSession()
+    const sessionUser = await getUserSession();
 
     // Create Checkout Sessions from body params.
     const session = await stripe.checkout.sessions.create({
-        customer_email:sessionUser?.user.email,
+      customer_email: sessionUser?.user.email,
       line_items: [
         {
           // Provide the exact Price ID (for example, price_1234) of the product you want to sell
           //   price: "price_1ThKSz0TNix7Pssy4AxwigvX",
           price: priceId,
           quantity: 1,
-          metadata:{planId}
         },
       ],
+      metadata: {
+        planId: String(planId),
+      },
+      subscription_data: {
+        metadata: {
+          planId: String(planId),
+        },
+      },
+
       mode: "subscription",
       success_url: `${origin}/plans/success?session_id={CHECKOUT_SESSION_ID}`,
     });

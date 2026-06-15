@@ -6,6 +6,7 @@ import { Table, Button, Badge } from "@heroui/react";
 import { CircleArrowDownFill } from "@gravity-ui/icons";
 
 import { redirect } from "next/navigation";
+import { authHeader } from "@/lib/core/server";
 
 const CompanyTable = ({ companies }) => {
   const handleApprove = async (id) => {
@@ -18,13 +19,17 @@ const CompanyTable = ({ companies }) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        ...(await authHeader()),
       },
       body: JSON.stringify({
         status: "approved",
       }),
     });
-    if (res.success) {
-      redirect("/dashboard/admin");
+    if (res.ok) {
+      redirect("/dashboard/admin/companies");
+    }
+    if (res.status === 403) {
+      redirect("/unathorized");
     }
 
     console.log("status =", res.status);
@@ -40,15 +45,18 @@ const CompanyTable = ({ companies }) => {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        ...(await authHeader()),
       },
       body: JSON.stringify({
         status: "pending",
       }),
     });
-    if (res.success) {
-      redirect("/dashboard/admin");
+    if (res.ok) {
+      redirect("/dashboard/admin/companies");
     }
-
+    if (res.status === 403) {
+      redirect("/unathorized");
+    }
     console.log("status =", res.status);
   };
 

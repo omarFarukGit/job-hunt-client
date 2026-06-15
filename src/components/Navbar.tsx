@@ -62,9 +62,9 @@ const Navbar = () => {
         <div className="hidden items-center gap-8 rounded-2xl bg-[#17171C] px-8 py-4 shadow-lg lg:flex">
           {/* Nav Links */}
           <div className="flex items-center gap-8">
-            {navItems.map((item) => (
+            {navItems.map((item, i) => (
               <Link
-                key={item.href}
+                key={i}
                 href={item.href}
                 className="text-sm text-gray-300 transition hover:text-white"
               >
